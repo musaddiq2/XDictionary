@@ -9,22 +9,18 @@ const dictionary = [
   { word: "State", meaning: "An object that stores data for a component." },
 ];
 
-const Search = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearch = () => {
-    onSearch(searchTerm);
-  };
-
+const Search = ({ searchTerm, onSearch }) => {
   return (
     <div className="search">
       <input
         type="text"
         placeholder="Search for a word"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => onSearch(e.target.value)}
       />
-      <button onClick={handleSearch}>Search</button>
+      <button data-testid="search-button" onClick={() => onSearch(searchTerm)}>
+        Search
+      </button>
     </div>
   );
 };
@@ -39,13 +35,14 @@ const Word = ({ word, meaning }) => {
 };
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState("");
   const [definition, setDefinition] = useState("");
 
   const handleSearch = (search) => {
+    setSearchTerm(search);
     const word = dictionary.find(
       (item) => item.word.toLowerCase() === search.toLowerCase()
     );
-
     if (word) {
       setDefinition(word.meaning);
     } else {
@@ -56,8 +53,8 @@ function App() {
   return (
     <div className="App">
       <h1>Dictionary App</h1>
-      <Search onSearch={handleSearch} />
-      <Word word={definition !== "" ? definition : "Enter a word to search"} />
+      <Search searchTerm={searchTerm} onSearch={handleSearch} />
+      <Word word={searchTerm} meaning={definition} />
     </div>
   );
 }
