@@ -17,7 +17,9 @@ const Search = ({ searchTerm, onSearch }) => {
         value={searchTerm}
         onChange={(e) => onSearch(e.target.value)}
       />
-      <button onClick={() => onSearch(searchTerm)}>Search</button>
+      <button data-testid="search-button" onClick={() => onSearch(searchTerm)}>
+        Search
+      </button>
     </div>
   );
 };
