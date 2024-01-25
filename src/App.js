@@ -26,7 +26,7 @@ const Word = ({ word, meaning }) => {
   return (
     <div className="word">
       <h3>{word}</h3>
-      <p>{meaning}</p>
+      <p>Definition: {meaning}</p>
     </div>
   );
 };
@@ -49,7 +49,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>XDictionary</h1>
+      <h1>Dictionary App</h1>
       <Search searchTerm={searchTerm} onSearch={handleSearch} />
       <Word word={searchTerm} meaning={definition} />
     </div>
