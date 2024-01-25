@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 const dictionary = [
   {
     word: "React",
@@ -18,7 +17,7 @@ const Search = ({ searchTerm, onSearch }) => {
         value={searchTerm}
         onChange={(e) => onSearch(e.target.value)}
       />
-      <button data-testid="search-button" onClick={() => onSearch(searchTerm)}>
+      <button data-testid="next" onClick={() => onSearch(searchTerm)}>
         Search
       </button>
     </div>
@@ -47,7 +46,6 @@ function App() {
       setDefinition(word.meaning);
     } else {
       setDefinition("Word not found in the dictionary.");
-      setSearchTerm("");
     }
   };
 
