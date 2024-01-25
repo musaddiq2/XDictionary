@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import Search from "./Search";
-import Word from "./Word";
-
 const dictionary = [
   {
     word: "React",
@@ -11,12 +8,35 @@ const dictionary = [
   { word: "State", meaning: "An object that stores data for a component." },
 ];
 
+const Search = ({ searchTerm, onSearch }) => {
+  return (
+    <div className="search">
+      <input
+        type="text"
+        placeholder="Search for a word"
+        value={searchTerm}
+        onChange={(e) => onSearch(e.target.value)}
+      />
+      <button onClick={() => onSearch(searchTerm)}>Search</button>
+    </div>
+  );
+};
+
+const Word = ({ word, meaning }) => {
+  return (
+    <div className="word">
+      <h3>{word}</h3>
+      <p>{meaning}</p>
+    </div>
+  );
+};
+
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [definition, setDefinition] = useState("");
 
   const handleSearch = (search) => {
-    setSearchTerm(search); // Update searchTerm immediately
+    setSearchTerm(search);
     const word = dictionary.find(
       (item) => item.word.toLowerCase() === search.toLowerCase()
     );
