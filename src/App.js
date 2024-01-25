@@ -47,6 +47,7 @@ function App() {
       setDefinition(word.meaning);
     } else {
       setDefinition("Word not found in the dictionary.");
+      setSearchTerm("");
     }
   };
 
