@@ -1,51 +1,64 @@
 import React, { useState } from 'react';
 
-const App = () => {
-  const initialDictionary = [
-    { word: 'React', meaning: 'A JavaScript library for building user interfaces.' },
-    { word: 'Component', meaning: 'A reusable building block in React.' },
-    { word: 'State', meaning: 'An object that stores data for a component.' },
-  ];
+const dictionary = [
+  {
+    word: "React",
+    meaning: "A JavaScript library for building user interfaces.",
+  },
+  { word: "Component", meaning: "A reusable building block in React." },
+  { word: "State", meaning: "An object that stores data for a component." },
+];
 
-  const [dictionary, setDictionary] = useState(initialDictionary);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [definition, setDefinition] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+const Search = ({ searchTerm, onSearch }) => {
+  return (
+    <div className="search">
+      <input
+        type="text"
+        placeholder="Search for a word"
+        value={searchTerm}
+        onChange={(e) => onSearch(e.target.value)}
+      />
+      <button data-testid="search-button" onClick={() => onSearch(searchTerm)}>
+        Search
+      </button>
+    </div>
+  );
+};
 
-  const handleSearch = () => {
-    const searchTermLower = searchTerm.toLowerCase();
-    const foundWord = dictionary.find((entry) => entry.word.toLowerCase() === searchTermLower);
+const Word = ({ word, meaning }) => {
+  return (
+    <div className="word">
+      <h3>{word}</h3>
+      <p>Definition: {meaning}</p>
+    </div>
+  );
+};
 
-    if (foundWord) {
-      setDefinition(foundWord.meaning);
-      setErrorMessage('');
+function App() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [definition, setDefinition] = useState("");
+
+  const handleSearch = (search) => {
+    setSearchTerm(search);
+    const word = dictionary.find(
+      (item) => item.word.toLowerCase() === search.toLowerCase()
+    );
+    if (word) {
+      setDefinition(word.meaning);
     } else {
-      setDefinition('');
-      setErrorMessage('Word not found in the dictionary.');
+      setDefinition("Word not found in the dictionary.");
     }
   };
 
   return (
-    <div>
+    <div className="App">
       <h1>Dictionary App</h1>
-      <input
-        type="text"
-        placeholder="Enter a word..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button onClick={handleSearch}>Search</button>
-
-      {definition && (
-        <div>
-      
-          <p>Definition: {definition}</p>
-        </div>
+      <Search searchTerm={searchTerm} onSearch={handleSearch} />
+      {searchTerm && (
+        <Word word={searchTerm} meaning={definition} />
       )}
-
-      {errorMessage && <p>Definition:{errorMessage}</p>}
     </div>
   );
-};
+}
 
 export default App;
