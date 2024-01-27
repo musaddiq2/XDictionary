@@ -1,51 +1,46 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 
-const App = () => {
-  const initialDictionary = [
-    { word: 'React', meaning: 'A JavaScript library for building user interfaces.' },
-    { word: 'Component', meaning: 'A reusable building block in React.' },
-    { word: 'State', meaning: 'An object that stores data for a component.' },
-  ];
 
-  const [dictionary, setDictionary] = useState(initialDictionary);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [definition, setDefinition] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+export default function App() {
+  const [dataWords, setDataWords] = useState([
+    {
+      word: "React",
+      meaning: "A JavaScript library for building user interfaces.",
+    },
 
-  const handleSearch = () => {
-    const searchTermLower = searchTerm.toLowerCase();
-    const foundWord = dictionary.find((entry) => entry.word.toLowerCase() === searchTermLower);
+    { word: "Component", meaning: "A reusable building block in React." },
 
+    { word: "State", meaning: "An object that stores data for a component." },
+  ]);
+  const [searchWord, setSearchWord] = useState("");
+  const [displayMeaning, setDisplayMeaning] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    //const { name, value } = e.target;
+    const foundWord = dataWords.find(
+      (entry) => entry.word.toLowerCase() === searchWord.toLowerCase()
+    );
     if (foundWord) {
-      setDefinition(foundWord.meaning);
-      setErrorMessage('');
+      setDisplayMeaning(foundWord.meaning);
     } else {
-      setDefinition('');
-      setErrorMessage('Word not found in the dictionary.');
+      setDisplayMeaning("Word not found in the dictionary.");
     }
   };
-
   return (
-    <div>
+    <div className="App">
       <h1>Dictionary App</h1>
-      <input
-        type="text"
-        placeholder="Enter a word..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button onClick={handleSearch}>Search</button>
-
-      {definition && (
-        <div>
-          <h2>Definition:</h2>
-          <p>{definition}</p>
-        </div>
-      )}
-
-      {errorMessage && <p>{errorMessage}</p>}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Search for a word .."
+          value={searchWord}
+          onChange={(e) => setSearchWord(e.target.value)}
+          name="searchWord"
+        />
+        <button type="submit">Search</button>
+      </form>
+      <h4>Defination:</h4>
+      <p>{displayMeaning}</p>
     </div>
   );
-};
-
-export default App;
+}
