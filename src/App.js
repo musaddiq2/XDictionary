@@ -38,8 +38,8 @@ const App = () => {
 
       {definition && (
         <div>
-          
-          <p>Definition: {definition}</p>
+          <h2>Definition:</h2>
+          <p>{definition}</p>
         </div>
       )}
 
